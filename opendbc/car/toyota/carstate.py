@@ -188,11 +188,12 @@ class CarState(CarStateBase):
       prev_distance_button = self.distance_button
       self.distance_button = cp_acc.vl["ACC_CONTROL"]["DISTANCE"]
 
-      ret.buttonEvents = create_button_events(self.distance_button, prev_distance_button, {1: ButtonType.gapAdjustCruise})
-    # if self.CP.carFingerprint in (SECOC_CAR):
-    #   self.distance_button = cp.vl["ACC_CONTROL_3"]["DISTANCE"]
+      if self.CP.carFingerprint not in (SECOC_CAR):
+        ret.buttonEvents = create_button_events(self.distance_button, prev_distance_button, {1: ButtonType.gapAdjustCruise})
+    if self.CP.carFingerprint in (SECOC_CAR):
+      self.distance_button = cp.vl["ACC_CONTROL_3"]["DISTANCE"]
 
-    #   ret.buttonEvents = create_button_events(self.distance_button, {1: ButtonType.gapAdjustCruise})
+      ret.buttonEvents = create_button_events(self.distance_button, {1: ButtonType.gapAdjustCruise})
     return ret
 
   @staticmethod
@@ -241,7 +242,7 @@ class CarState(CarStateBase):
       pt_messages += [
         ("PCS_HUD", 1),
         ("ACC_CONTROL", 33),
-        # ("ACC_CONTROL_3", 3),
+        ("ACC_CONTROL_3", 1),
       ]
 
     if CP.carFingerprint not in (TSS2_CAR - RADAR_ACC_CAR) and not CP.enableDsu and not CP.flags & ToyotaFlags.DISABLE_RADAR.value:
@@ -258,7 +259,7 @@ class CarState(CarStateBase):
     if CP.carFingerprint in (TSS2_CAR - RADAR_ACC_CAR):
       cam_messages += [
         ("ACC_CONTROL", 33),
-        # ("ACC_CONTROL_3", 3),
+        ("ACC_CONTROL_3", 1),
         ("PCS_HUD", 1),
       ]
 
