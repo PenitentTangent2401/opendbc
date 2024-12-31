@@ -61,6 +61,12 @@ def create_accel_command_2(packer, accel):
   }
   return packer.make_can_msg("ACC_CONTROL_2", 0, values)
 
+def create_accel_command_3(packer, distance):
+  values = {
+    "DISTANCE": distance,
+  }
+  return packer.make_can_msg("ACC_CONTROL_3", 0, values)
+
 def create_pcs_commands(packer, accel, active, mass):
   values1 = {
     "COUNTER": 0,

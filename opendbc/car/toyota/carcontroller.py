@@ -265,6 +265,7 @@ class CarController(CarControllerBase):
                               acc_cmd_2)
           self.secoc_acc_message_counter += 1
           can_sends.append(acc_cmd_2)
+          can_sends.append(toyotacan.create_accel_command_3(self.packer, self.distance_button))
 
         self.accel = pcm_accel_cmd
 
