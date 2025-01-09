@@ -267,14 +267,15 @@ class CarController(CarControllerBase):
                               acc_cmd_2)
           self.secoc_acc_message_counter += 1
           can_sends.append(acc_cmd_2)
-          acc_cmd_3 = toyotacan.create_accel_command_3(self.packer, self.distance_button)
-          acc_cmd_3 = add_mac(self.secoc_key,
-                              int(CS.secoc_synchronization['TRIP_CNT']),
-                              int(CS.secoc_synchronization['RESET_CNT']),
-                              self.secoc_acc_btn_message_counter,
-                              acc_cmd_3)
-          self.secoc_acc_btn_message_counter += 1
-          can_sends.append(acc_cmd_3)
+          if self.frame % 100 == 0:
+            acc_cmd_3 = toyotacan.create_accel_command_3(self.packer, self.distance_button)
+            acc_cmd_3 = add_mac(self.secoc_key,
+                                int(CS.secoc_synchronization['TRIP_CNT']),
+                                int(CS.secoc_synchronization['RESET_CNT']),
+                                self.secoc_acc_btn_message_counter,
+                                acc_cmd_3)
+            self.secoc_acc_btn_message_counter += 1
+            can_sends.append(acc_cmd_3)
 
         self.accel = pcm_accel_cmd
 
