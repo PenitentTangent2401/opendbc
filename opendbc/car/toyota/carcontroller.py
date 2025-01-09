@@ -86,6 +86,7 @@ class CarController(CarControllerBase):
     self.secoc_lka_message_counter = 0
     self.secoc_lta_message_counter = 0
     self.secoc_acc_message_counter = 0
+    self.secoc_acc_btn_message_counter = 0
     self.secoc_prev_reset_counter = 0
 
   def update(self, CC, CS, now_nanos):
@@ -107,6 +108,7 @@ class CarController(CarControllerBase):
         self.secoc_lka_message_counter = 0
         self.secoc_lta_message_counter = 0
         self.secoc_acc_message_counter = 0
+        self.secoc_acc_btn_message_counter = 0
         self.secoc_prev_reset_counter = CS.secoc_synchronization['RESET_CNT']
 
         expected_mac = build_sync_mac(self.secoc_key, int(CS.secoc_synchronization['TRIP_CNT']), int(CS.secoc_synchronization['RESET_CNT']))
@@ -265,7 +267,14 @@ class CarController(CarControllerBase):
                               acc_cmd_2)
           self.secoc_acc_message_counter += 1
           can_sends.append(acc_cmd_2)
-          can_sends.append(toyotacan.create_accel_command_3(self.packer, self.distance_button))
+          acc_cmd_3 = toyotacan.create_accel_command_3(self.packer, self.distance_button)
+          acc_cmd_3 = add_mac(self.secoc_key,
+                              int(CS.secoc_synchronization['TRIP_CNT']),
+                              int(CS.secoc_synchronization['RESET_CNT']),
+                              self.secoc_acc_btn_message_counter,
+                              acc_cmd_3)
+          self.secoc_acc_btn_message_counter += 1
+          can_sends.append(acc_cmd_3)
 
         self.accel = pcm_accel_cmd
 
