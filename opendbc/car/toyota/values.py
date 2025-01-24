@@ -276,6 +276,15 @@ class CAR(Platforms):
     dbc_dict('toyota_secoc_generated', 'toyota_tss2_adas'),
     flags=ToyotaFlags.TSS2 | ToyotaFlags.NO_STOP_TIMER | ToyotaFlags.NO_DSU | ToyotaFlags.SECOC,
   )
+  TOYOTA_BZ4X_TSS3 = PlatformConfig(
+    # TODO: Enable this docs entry when it can be suppressed from openpilot CARS.md
+    # [ToyotaCarDocs("Toyota Sienna 2021-23", min_enable_speed=MIN_ACC_SPEED)],
+    [],
+    CarSpecs(mass=4514. * CV.LB_TO_KG, wheelbase=2.85, steerRatio=17.8, tireStiffnessFactor=0.444),
+    dbc_dict('toyota_secoc_generated', 'toyota_tss2_adas'),
+    flags=ToyotaFlags.NO_STOP_TIMER | ToyotaFlags.NO_DSU | ToyotaFlags.SECOC,
+  )
+
 
   # Lexus
   LEXUS_CTH = PlatformConfig(
